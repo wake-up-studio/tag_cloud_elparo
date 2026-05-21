@@ -26,3 +26,7 @@ h1{
 .tagCloud{
   bottom: 0;
 }
+
+.word:hover{
+  border: 1px solid black;
+}

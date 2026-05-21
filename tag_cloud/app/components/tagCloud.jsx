@@ -1,7 +1,7 @@
 "use client";
 
 //******************************************
-// PROBLEME RELOAD PAGE A REGLER
+// PROBLEME RELOAD PAGE A REGLER (window.location au retour)
 //******************************************
 
 import * as THREE from 'three';
@@ -11,18 +11,18 @@ import { Billboard, Text, TrackballControls, OrbitControls } from '@react-three/
 
 
 const tags = [
-    "Wood", "Upcycling", "elparo", "Metal", "Origami",
-    "Rorschach", "elparo", "Land Art", "Model", "elparo", "Featuring", "Ceramic",
-    "elparo","Wood2", "elparo", "Upcycling2", "Metal2", "elparo", "Origami2",
-    "Rorschach2", "Land Art2", "elparo", "Model2", "Featuring2", "Ceramic2",
-    "Wood3", "elparo", "Upcycling3", "Metal3", "Origami3",
-    "Rorschach3", "elparo", "Land Art3", "Model3", "elparo", "Featuring3"
+    "Wood", "Upcycling",  "Metal", "Origami",
+    "Rorschach",  "Land Art", "Model",  "Featuring", "Ceramic",
+    "Wood 2",  "Upcycling 2", "Metal 2",  "Origami 2",
+    "Rorschach 2", "Land Art 2",  "Model 2", "Featuring 2", "Ceramic 2",
+    "Wood 3",  "Upcycling 3", "Metal 3", "Origami 3",
+    "Rorschach 3",  "Land Art 3", "Model 3",  "Featuring 3"
 ]; //array avec les catégories à rentrer
 
 
 function Word({ children, ...props }) {
     const color = new THREE.Color(); //création d'un "matériel"
-    const fontProps = { font: 'Rakkas-Regular.ttf', fontSize: 2.7, letterSpacing: 0, lineHeight: 1, 'material-toneMapped': false } //création des mots
+    const fontProps = { font: 'Rakkas-Regular.ttf', fontSize: 2.7, letterSpacing: 0, lineHeight: 1, 'material-toneMapped': false } //Style pour création des mots
     const ref = useRef()
     const [hovered, setHovered] = useState(false)
     const over = (e) => (e.stopPropagation(), setHovered(true))
@@ -30,18 +30,22 @@ function Word({ children, ...props }) {
 
     const handleClick = (e) => {
         // console.log(e.object.name);
-        location.assign(`http://localhost:3000/${e.object.name}`);
+        window.location = `http://localhost:3000/${e.object.name}`;
     }
 
     // Change le curseur de la souris
-    useEffect(() => {
-        if (hovered) document.body.style.cursor = 'pointer'
-        return () => (document.body.style.cursor = 'auto')
+    useEffect((e) => {
+        if (hovered){
+            document.body.style.cursor = 'pointer';
+        }
+        return () => (document.body.style.cursor = 'auto');
     }, [hovered])
+
     //Set la couleur des mots avec la notion de hover ou non
     useFrame(({ camera }) => {
         ref.current.material.color.lerp(color.set(hovered ? '#ca3b23' : '#222'), 0.1)
     })
+
     //return un billboard (groupe face caméra)
     return (
         <Billboard {...props}>
